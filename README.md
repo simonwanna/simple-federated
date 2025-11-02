@@ -8,3 +8,4 @@ Customise training parameters in `pyproject.toml` if needed.
 ### Run Flower server
 Activate the virtual environment: `source .venv/bin/activate` \
 To run the Flower server, execute: `flwr run .`
+To run the centralised training, execute: `uv run src/centralized.py`

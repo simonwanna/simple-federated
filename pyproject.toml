@@ -38,14 +38,16 @@ clientapp = "src.client:app"
 
 # Accessible via `context.run_config`
 [tool.flwr.app.config]
-num-server-rounds = 3
-fraction-train = 0.5
+num-server-rounds = 5
+fraction-train = 1
 local-epochs = 1
-global-epochs = 1
+global-epochs = 5
 lr = 0.01
+batch-size = 32
+seed = 42
 
 [tool.flwr.federations]
 default = "local-simulation"
 
 [tool.flwr.federations.local-simulation]
-options.num-supernodes = 10
+options.num-supernodes = 5
