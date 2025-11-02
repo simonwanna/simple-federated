@@ -1,0 +1,51 @@
+[project]
+name = "smpl-fed"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "==3.11.*"
+
+authors = [
+    { name = "Simon Wanna", email = "simonwanna@gmail.com" }
+]
+
+dependencies = [
+    "ruff>=0.12.2",
+    "matplotlib>=3.10.6",
+    "torch==2.7.1",
+    "torchvision==0.22.1",
+    "tqdm>=4.67.1",
+    "flwr[simulation]==1.22.0",
+    "flwr-datasets==0.5.0",
+]
+
+[dependency-groups]
+dev = ["ipykernel>=6.30.1"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.flwr.app]
+publisher = "simon"
+
+[tool.flwr.app.components]
+serverapp = "src.server:app"
+clientapp = "src.client:app"
+
+# Accessible via `context.run_config`
+[tool.flwr.app.config]
+num-server-rounds = 3
+fraction-train = 0.5
+local-epochs = 1
+global-epochs = 1
+lr = 0.01
+
+[tool.flwr.federations]
+default = "local-simulation"
+
+[tool.flwr.federations.local-simulation]
+options.num-supernodes = 10
