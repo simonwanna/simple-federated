@@ -2,6 +2,7 @@ import pathlib
 import datetime
 import tomllib
 import torch
+import wandb
 
 from task import (
     Net,
@@ -18,6 +19,13 @@ def main(context):
     # Seed everything
     seed = context["seed"]
     set_seed(seed)
+    
+    # W&B
+    wandb.init(
+        project="smpl-fed",
+        config=context,
+        name=f"centralized-e{context['global-epochs']}-lr{context['lr']}-{datetime.datetime.now():%Y%m%d-%H%M%S}",
+    )
 
     # Load the model
     model = Net()
@@ -51,10 +59,20 @@ def main(context):
         print(
             f"Epoch {epoch + 1} - Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.4f}"
         )
+        
+        wandb.log(
+            {
+                "train/loss": float(train_loss),
+                "eval/loss": float(test_loss),
+                "eval/acc": float(test_accuracy),
+            },
+            step=epoch + 1,
+        )
 
     end = datetime.datetime.now()
     duration = end - start
     print(f"Centralized Training Duration: {duration}")
+    wandb.finish()
 
 
 if __name__ == "__main__":

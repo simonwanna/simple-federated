@@ -6,6 +6,7 @@ Run `uv sync` to set up virtual env and install dependencies. \
 Customise training parameters in `pyproject.toml` if needed.
 
 ### Run Flower server
+Login to WandB by setting key `export WANDB_API_KEY=<your_api_key>` then `wandb login` \
 Activate the virtual environment: `source .venv/bin/activate` \
-To run the Flower server, execute: `flwr run .`
+To run the Flower server, execute: `flwr run .` \
 To run the centralised training, execute: `uv run src/centralized.py`
